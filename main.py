@@ -1,6 +1,18 @@
 import mysql.connector
 import pymongo
 
+import time
+
+def timing(f):
+    def wrap(*args):
+        time1 = time.time()
+        ret = f(*args)
+        time2 = time.time()
+        print('{:s} function took {:.5f} ms'.format(f.__name__, (time2-time1)*1000.0))
+
+        return ret
+    return wrap
+
 ##MySQL
 mydb = mysql.connector.connect(
   host="localhost",
@@ -65,6 +77,9 @@ def clearMySQL():
     sql = "DROP TABLE IF EXISTS customers"
     mycursor.execute(sql)
 
+
+
+@timing
 def insertMongo():
     mylist = [
         {"firstname": "Peter", "lastname": "Lowstreet", "age": "20"},
@@ -82,43 +97,45 @@ def insertMongo():
         {"firstname": "Viola", "lastname": "Sideway", "age": "33"}
     ]
     x = mycol.insert_many(mylist)
-    print(x.inserted_ids)
+    #print(x.inserted_ids)
 
+@timing
 def selectMongo():
     myquery = {"age": "33"}
     mydoc = mycol.find(myquery)
 
-    for x in mydoc:
-        print(x)
+    #for x in mydoc:
+    #    print(x)
 
+@timing
 def updateMongo():
     myquery = {"age": "33"}
-    newvalues = {"$set": {"age": "33"}}
+    newvalues = {"$set": {"age": "44"}}
 
-    mycol.update_one(myquery, newvalues)
-    for x in mycol.find():
-        print(x)
+    x = mycol.update_many(myquery, newvalues)
 
+    print(x.modified_count, "documents updated.")
+
+@timing
 def deleteMongo():
-    myquery =  {"age": "33"}
+    myquery =  {"age": "44"}
 
     x = mycol.delete_many(myquery)
-    print(x.deleted_count, " documents deleted.")
+    print(x.deleted_count, "documents deleted.")
 
 def clearMongo():
     mycol.drop()
 
-def main():
-    mycursor.execute("SHOW DATABASES")
-    for x in mycursor:
-        print(x)
 
 if __name__ == "__main__":
-    #main()
     #createDBMySQL()
     #insertMySQL()
     #selectMySQL()
     #updateMySQL()
     #deleteMySQL()
-    #insertMongo()
+
+    insertMongo()
     selectMongo()
+    updateMongo()
+    deleteMongo()
+    clearMongo()
