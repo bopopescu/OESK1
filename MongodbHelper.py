@@ -1,11 +1,16 @@
 import pymongo
 from timing import timing
+import pandas as pd
 
 class MongodbHelper:
     def __init__(self):
         self.client = pymongo.MongoClient("mongodb://localhost:27017/")
         self.db = self.client["oeskdb"]
         self.col = self.db["people"]
+
+    def csv_to_json(filename):
+        data = pd.read_csv(filename, sep=';', header=None)
+        return data.to_dict('records')
 
     @timing
     def insert(self):

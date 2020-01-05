@@ -1,5 +1,5 @@
 import mysql.connector
-
+import csv
 from timing import timing
 
 
@@ -19,9 +19,9 @@ class MysqlHelper:
         self.cursor.execute("CREATE TABLE people (id INT AUTO_INCREMENT PRIMARY KEY, firstname VARCHAR(255), lastname VARCHAR(255), age INTEGER)")
 
     @timing
-    def insert(self):
+    def insert(self, data):
         sql = "INSERT INTO people (firstname, lastname, age) VALUES (%s, %s, %s)"
-        val = [
+        '''val = [
             ('Peter', 'Lowstreet', 20),
             ('Amy', 'Apple', 23),
             ('Hannah', 'Mountain', 21),
@@ -35,8 +35,8 @@ class MysqlHelper:
             ('William', 'Central', 22),
             ('Chuck', 'Mallord', 24),
             ('Viola', 'Sideway', 33)
-        ]
-        self.cursor.executemany(sql, val)
+        ]'''
+        self.cursor.executemany(sql, data)
         self.cnx.commit()
         print(self.cursor.rowcount, "was inserted.")
 
@@ -62,7 +62,7 @@ class MysqlHelper:
         self.cnx.commit()
         print(self.cursor.rowcount, "record(s) deleted")
 
-    
+
     def clear(self):
         sql = "DROP TABLE IF EXISTS people"
         self.cursor.execute(sql)
