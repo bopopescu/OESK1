@@ -1,9 +1,7 @@
-from random import random, randint
-import csv
 from MysqlHelper import MysqlHelper
 from MongodbHelper import MongodbHelper
 
-
+import csv
 
 if __name__ == "__main__":
     with open('file2.csv', newline='') as csvfile:
@@ -18,13 +16,13 @@ if __name__ == "__main__":
     mysql_helper.delete()
     mysql_helper.clear()
 
-'''
-    mongodb_helper = MongodbHelper()
-    #ooo = mongodb_helper.csv_to_json('file.csv')
 
-    mongodb_helper.insert()
+    mongodb_helper = MongodbHelper()
+
+    json_data = mongodb_helper.dataPrepare(data)
+
+    mongodb_helper.insert(json_data)
     mongodb_helper.select()
     mongodb_helper.update()
     mongodb_helper.delete()
     mongodb_helper.clear()
-'''
