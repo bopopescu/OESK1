@@ -13,7 +13,7 @@ class MongodbHelper:
             json_row = {}
             json_row['firstname'] = row[0]
             json_row['lastname'] = row[1]
-            json_row['age'] = int(row[2])
+            json_row['weight'] = int(row[2])
             res.append(json_row)
         return res
 
@@ -24,20 +24,20 @@ class MongodbHelper:
 
     @timing
     def select(self):
-        myquery = {"age": 33}
+        myquery = {"weight": 55}
         x = self.col.find(myquery)
         print(x.count(), "documents selected.")
 
     @timing
     def update(self):
-        myquery = {"age": 33}
-        newvalues = {"$set": {"age": 44}}
+        myquery = {"weight": 64}
+        newvalues = {"$set": {"weight": 66}}
         x = self.col.update_many(myquery, newvalues)
         print(x.modified_count, "documents updated.")
 
     @timing
     def delete(self):
-        myquery = {"age": 44}
+        myquery = {"weight": 44}
         x = self.col.delete_many(myquery)
         print(x.deleted_count, "documents deleted.")
 

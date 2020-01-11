@@ -13,11 +13,11 @@ class MysqlHelper:
 
     def createDB(self):
         #self.cursor.execute("CREATE DATABASE oeskdb")
-        self.cursor.execute("CREATE TABLE people (id INT AUTO_INCREMENT PRIMARY KEY, firstname VARCHAR(255), lastname VARCHAR(255), age INTEGER)")
+        self.cursor.execute("CREATE TABLE people (id INT AUTO_INCREMENT PRIMARY KEY, firstname VARCHAR(255), lastname VARCHAR(255), weight INTEGER)")
 
     @timing
     def insert(self, data):
-        sql = "INSERT INTO people (firstname, lastname, age) VALUES (%s, %s, %s)"
+        sql = "INSERT INTO people (firstname, lastname, weight) VALUES (%s, %s, %s)"
 
         self.cursor.executemany(sql, data)
         self.cnx.commit()
@@ -25,21 +25,21 @@ class MysqlHelper:
 
     @timing
     def select(self):
-        sql = "SELECT * FROM people WHERE age = 33"
+        sql = "SELECT * FROM people WHERE weight = 55"
         self.cursor.execute(sql)
         self.cursor.fetchall()
         print(self.cursor.rowcount, "record(s) selected")
 
     @timing
     def update(self):
-        sql = "UPDATE people SET age = 44 WHERE age = 33"
+        sql = "UPDATE people SET weight = 66 WHERE weight = 64"
         self.cursor.execute(sql)
         self.cnx.commit()
         print(self.cursor.rowcount, "record(s) updated")
 
     @timing
     def delete(self):
-        sql = "DELETE FROM people WHERE age = 44"
+        sql = "DELETE FROM people WHERE weight = 44"
         self.cursor.execute(sql)
         self.cnx.commit()
         print(self.cursor.rowcount, "record(s) deleted")

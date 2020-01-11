@@ -4,7 +4,7 @@ from MongodbHelper import MongodbHelper
 import csv
 
 if __name__ == "__main__":
-    with open('file2.csv', newline='') as csvfile:
+    with open('file10000.csv', newline='') as csvfile:
         data = list(csv.reader(csvfile, delimiter=';'))
 
     mysql_helper = MysqlHelper()
